@@ -57,28 +57,23 @@ fun AddTimeZoneDialog(
         val searchValue = remember { mutableStateOf("") }
         val coroutineScope = rememberCoroutineScope()
         val focusRequester = remember { FocusRequester() }
-//        val scope = rememberCoroutineScope()
-//        var currentJob by remember { mutableStateOf<Job?>(null) }
 
         OutlinedTextField(
             singleLine = true,
             value = searchValue.value,
-            modifier = Modifier.focusRequester(focusRequester),
+            modifier = Modifier.focusRequester(focusRequester)
+            .fillMaxWidth(),
             onValueChange = {
                 searchValue.value = it
                 if (searchValue.value.isEmpty()) {
                     return@OutlinedTextField
                 }
-//                currentJob?.cancel()
-//                currentJob = scope.async {
-//                    delay(SEARCH_DELAY_MILLIS)
                 val index = searchZones(searchValue.value, timeZoneStrings = timeZoneStrings)
                 if (index != -1) {
                     coroutineScope.launch {
                         listState.animateScrollToItem(index)
                     }
                 }
-//                }
             },
             trailingIcon = {
                 IconButton(onClick = {

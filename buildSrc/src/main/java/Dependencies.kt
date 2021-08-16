@@ -2,24 +2,25 @@ const val androidPlugin = "android"
 const val androidApp = "com.android.application"
 const val androidLib = "com.android.library"
 const val multiplatform = "multiplatform"
-const val compose = "org.jetbrains.compose"
+const val composePlugin = "org.jetbrains.compose"
 const val cocopods = "native.cocoapods"
 
 object Versions {
-    const val min_sdk = 22
+    const val min_sdk = 24
     const val target_sdk = 30
     const val compile_sdk = 30
 
-    const val kotlin = "1.5.10"
-    const val kotlin_gradle_plugin = "1.5.10"
-    const val android_gradle_plugin = "7.1.0-alpha03"
+    const val kotlin = "1.5.21"
+    const val kotlin_gradle_plugin = "1.5.21"
+    const val android_gradle_plugin = "7.1.0-alpha08"
+    const val desktop_compose_plugin = "1.0.0-alpha3"
+    const val compose_version= "1.1.0-alpha01"
 
     const val coroutines = "1.5.0-native-mt"
     const val koin = "3.1.1"
     const val junit = "4.13.2"
     const val material = "1.3.0"
     const val kotlinxDateTime = "0.2.1"
-    const val compose_version= "1.0.0"
     const val activity_compose = "1.3.0-beta01"
     const val datetime = "0.2.1"
     const val nav_compose = "2.4.0-alpha01"
@@ -32,13 +33,16 @@ object Versions {
 object Deps {
     const val android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
     const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_gradle_plugin}"
+    const val desktop_compose_gradle_plugin = "org.jetbrains.compose:compose-gradle-plugin:${Versions.desktop_compose_plugin}"
     const val junit = "junit:junit:${Versions.junit}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
     const val napier = "io.github.aakira:napier:${Versions.napier}"
 
     object Kotlin {
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+        const val stdlib_common = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
+        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+        const val stdlib8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
     }
 
     object Koin {
@@ -92,5 +96,6 @@ object Deps {
 
     object JetBrains {
         const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}"
+        const val uiDesktop = "org.jetbrains.compose.ui:ui-desktop:${Versions.desktop_compose_plugin}"
     }
 }

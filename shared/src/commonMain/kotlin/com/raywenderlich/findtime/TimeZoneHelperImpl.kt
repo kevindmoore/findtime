@@ -27,7 +27,7 @@ class TimeZoneHelperImpl : TimeZoneHelper {
         val goodHours = mutableListOf<Int>()
         val timeRange = IntRange(max(0, startHour), min(23, endHour))
         for (hour in timeRange) {
-            var isGoodHour = true
+            var isGoodHour = false
             for (zone in timezoneStrings) {
                 val timezone = TimeZone.of(zone)
                 if (!isValid(
@@ -41,6 +41,7 @@ class TimeZoneHelperImpl : TimeZoneHelper {
                     isGoodHour = false
                 } else {
                     Napier.d("Hour $hour is Valid for time range")
+                    isGoodHour = true
                 }
             }
             if (isGoodHour) {

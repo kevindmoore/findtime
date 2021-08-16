@@ -1,5 +1,6 @@
-package com.raywenderlich.findtime.android.ui
+package com.raywenderlich.desktop.ui
 
+import AnimatedSwipeDismiss
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -23,7 +24,6 @@ import androidx.compose.ui.unit.dp
 import com.raywenderlich.findtime.TimeZoneHelper
 import kotlinx.coroutines.delay
 import org.koin.java.KoinJavaComponent.inject
-const val timeMillis = 1000 * 60L
 
 @Composable
 fun TimeZoneScreen(
@@ -40,7 +40,7 @@ fun TimeZoneScreen(
     LaunchedEffect(0) {
       while (true) {
         time = timezoneHelper.currentTime()
-        delay(timeMillis) // Every minute
+        delay(1000 * 60L) // Every minute
       }
     }
     Text(
@@ -56,6 +56,7 @@ fun TimeZoneScreen(
       state = listState,
     ) {
       items(timezoneStrings) { timezoneString ->
+
 
         AnimatedSwipeDismiss(
           item = timezoneString,
@@ -81,6 +82,7 @@ fun TimeZoneScreen(
             }
           },
           content = {
+
             Box(
               modifier = Modifier
                 .fillMaxSize()
@@ -117,7 +119,6 @@ fun TimeZoneScreen(
             println("Timezone strings ${timezoneStrings.size}")
           }
         )
-
       }
     }
   }

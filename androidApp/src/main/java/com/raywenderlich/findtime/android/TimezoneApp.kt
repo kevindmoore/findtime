@@ -1,7 +1,7 @@
 package com.raywenderlich.findtime.android
 
 import android.app.Application
-import com.raywenderlich.findtime.di.initKoin
+import com.raywenderlich.findtime.di.initializeKoin
 import com.raywenderlich.findtime.di.timezoneModule
 import io.github.aakira.napier.DebugAntilog
 import io.github.aakira.napier.Napier
@@ -13,7 +13,7 @@ class TimezoneApp: Application() {
         super.onCreate()
 
         Napier.base(DebugAntilog())
-        initKoin {
+        initializeKoin {
             androidLogger()
             androidContext(this@TimezoneApp)
             modules(timezoneModule())

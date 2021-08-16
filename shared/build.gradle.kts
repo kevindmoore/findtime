@@ -6,10 +6,11 @@ plugins {
     id(androidLib)
 }
 
-version = "1.0"
+version = "1.0.0"
 
 kotlin {
     android()
+    jvm("desktop")
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
         if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
@@ -28,15 +29,21 @@ kotlin {
     }
     
     sourceSets {
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlin.RequiresOptIn")
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
         val commonMain by getting {
+            kotlin.srcDirs("src/commonMain/kotlin")
+            resources.srcDirs("src/commonMain/resources")
             dependencies {
                 implementation(Deps.JetBrains.datetime)
                 // koin
                 api(Deps.Koin.core)
 
                 implementation(Deps.napier)
-                // Coroutines
-                implementation(Deps.Coroutines.common)
             }
         }
         val commonTest by getting {
@@ -46,11 +53,16 @@ kotlin {
             }
         }
         val androidMain by getting
+
         val androidTest by getting {
             dependencies {
                 implementation(kotlin(Deps.KotlinTest.junit))
                 implementation(Deps.Test.junit)
             }
+        }
+
+        val desktopMain by getting {
+            dependsOn(commonMain)
         }
         val iosMain by getting
         val iosTest by getting
@@ -63,5 +75,19 @@ android {
     defaultConfig {
         minSdk = Versions.min_sdk
         targetSdk = Versions.target_sdk
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+    buildFeatures {
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.compose_version
+    }
+    dependencies {
+        implementation(Deps.Compose.runtime)
     }
 }

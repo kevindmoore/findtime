@@ -40,19 +40,19 @@ sealed class Screen(val title: String) {
     object TimezoneCalcScreen : Screen("Calculator")
 }
 
-data class BottomNavigationitem(
+data class BottomNavigationItem(
     val route: String,
     val icon: ImageVector,
     val iconContentDescription: String
 )
 
 val bottomNavigationItems = listOf(
-    BottomNavigationitem(
+    BottomNavigationItem(
         Screen.TimeZonesScreen.title,
         Icons.Filled.Language,
         "Timezones"
     ),
-    BottomNavigationitem(
+    BottomNavigationItem(
         Screen.TimezoneCalcScreen.title,
         Icons.Filled.Place,
         "Calculator"
