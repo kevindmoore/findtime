@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raywenderlich.findtime.TimeZoneHelper
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 @Composable
 fun TimeZoneCalculator(
@@ -35,7 +35,7 @@ fun TimeZoneCalculator(
         for (i in 0..timezoneStrings.size-1) selected[i] = true
         selected
     }
-    val timezoneHelper: TimeZoneHelper = KoinJavaComponent.get(TimeZoneHelper::class.java)
+    val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)
     val showAddDialog = remember { mutableStateOf(false) }
     val meetingHours = remember { SnapshotStateList<Int>() }
 
@@ -73,6 +73,7 @@ fun TimeZoneCalculator(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 4.dp, end = 4.dp)
+                .wrapContentWidth(Alignment.CenterHorizontally),
 
         ) {
             Spacer(modifier = Modifier.size(16.dp))
@@ -139,7 +140,7 @@ fun TimeZoneCalculator(
                                 onCheckedChange = {
                                     selectedTimeZones[i] = it
                                 })
-                            Text(timezone)
+                            Text(timezone, modifier = Modifier.align(Alignment.CenterVertically))
                         }
                     }
                 }

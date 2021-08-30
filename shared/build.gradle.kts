@@ -1,3 +1,4 @@
+import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
@@ -18,7 +19,7 @@ kotlin {
         else
             ::iosX64
 
-    iosTarget("ios") {}
+//    iosTarget("ios") {}
 
     cocoapods {
         summary = "Holds Time zone information"
@@ -64,8 +65,8 @@ kotlin {
         val desktopMain by getting {
             dependsOn(commonMain)
         }
-        val iosMain by getting
-        val iosTest by getting
+//        val iosMain by getting
+//        val iosTest by getting
     }
 }
 

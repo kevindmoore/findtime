@@ -1,4 +1,4 @@
-package com.raywenderlich.desktop.ui
+package com.raywenderlich.compose.ui
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.MaterialTheme

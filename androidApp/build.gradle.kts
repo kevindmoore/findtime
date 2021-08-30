@@ -50,6 +50,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
         freeCompilerArgs += listOf(
             "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi",
             "-Xopt-in=org.koin.core.component.KoinApiExtension",
+            "-Xopt-in=kotlin.RequiresOptIn",
             "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
             "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
         )

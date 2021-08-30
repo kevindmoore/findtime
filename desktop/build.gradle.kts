@@ -35,6 +35,7 @@ kotlin {
                 // Coroutines
                 implementation(Deps.Coroutines.common)
                 implementation(project(":shared"))
+                implementation(project(":composeShared"))
             }
         }
     }

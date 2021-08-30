@@ -12,7 +12,7 @@ object Versions {
 
     const val kotlin = "1.5.21"
     const val kotlin_gradle_plugin = "1.5.21"
-    const val android_gradle_plugin = "7.1.0-alpha08"
+    const val android_gradle_plugin = "7.1.0-alpha09"
     const val desktop_compose_plugin = "1.0.0-alpha3"
     const val compose_version= "1.1.0-alpha01"
 
@@ -97,5 +97,6 @@ object Deps {
     object JetBrains {
         const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}"
         const val uiDesktop = "org.jetbrains.compose.ui:ui-desktop:${Versions.desktop_compose_plugin}"
+        const val uiUtil = "org.jetbrains.compose.ui:ui-util:${Versions.desktop_compose_plugin}"
     }
 }
