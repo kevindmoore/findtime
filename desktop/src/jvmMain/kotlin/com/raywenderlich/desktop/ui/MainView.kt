@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import com.raywenderlich.compose.ui.TimeZoneCalculator
+import com.raywenderlich.findtime.ui.TimeZoneScreen
 
 sealed class Screen(val title: String) {
   object TimeZonesScreen : Screen("Timezones")

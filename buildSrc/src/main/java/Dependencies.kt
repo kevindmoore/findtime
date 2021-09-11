@@ -7,14 +7,16 @@ const val cocopods = "native.cocoapods"
 
 object Versions {
     const val min_sdk = 24
-    const val target_sdk = 30
-    const val compile_sdk = 30
+    const val target_sdk = 31
+    const val compile_sdk = 31
 
-    const val kotlin = "1.5.21"
-    const val kotlin_gradle_plugin = "1.5.21"
-    const val android_gradle_plugin = "7.1.0-alpha09"
+    const val kotlin = "1.5.30"
+    const val kotlin_gradle_plugin = "1.5.30"
+//    const val kotlin = "1.5.21"
+//    const val kotlin_gradle_plugin = "1.5.21"
+    const val android_gradle_plugin = "7.1.0-alpha11"
     const val desktop_compose_plugin = "1.0.0-alpha3"
-    const val compose_version= "1.1.0-alpha01"
+    const val compose_version= "1.1.0-alpha03"
 
     const val coroutines = "1.5.0-native-mt"
     const val koin = "3.1.1"
@@ -23,7 +25,7 @@ object Versions {
     const val kotlinxDateTime = "0.2.1"
     const val activity_compose = "1.3.0-beta01"
     const val datetime = "0.2.1"
-    const val nav_compose = "2.4.0-alpha01"
+    const val nav_compose = "2.4.0-alpha08"
     const val napier = "1.4.1"
     const val junit5 = "1.5.10"
     const val frameworkName = "shared"
@@ -36,7 +38,6 @@ object Deps {
     const val desktop_compose_gradle_plugin = "org.jetbrains.compose:compose-gradle-plugin:${Versions.desktop_compose_plugin}"
     const val junit = "junit:junit:${Versions.junit}"
     const val material = "com.google.android.material:material:${Versions.material}"
-    const val kotlinxDateTime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
     const val napier = "io.github.aakira:napier:${Versions.napier}"
 
     object Kotlin {

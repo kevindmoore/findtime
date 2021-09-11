@@ -30,12 +30,12 @@ kotlin {
     }
     
     sourceSets {
-        all {
-            languageSettings.apply {
-                useExperimentalAnnotation("kotlin.RequiresOptIn")
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            }
-        }
+//        all {
+//            languageSettings.apply {
+//                useExperimentalAnnotation("kotlin.RequiresOptIn")
+//                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+//            }
+//        }
         val commonMain by getting {
             kotlin.srcDirs("src/commonMain/kotlin")
             resources.srcDirs("src/commonMain/resources")

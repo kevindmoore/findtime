@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raywenderlich.findtime.TimeZoneHelper
+import org.koin.java.KoinJavaComponent.inject
 
 @Composable
 fun TimeZoneCalculator(
@@ -31,7 +32,7 @@ fun TimeZoneCalculator(
     }
     val selectedTimeZones = remember {
         val selected = SnapshotStateMap<Int, Boolean>()
-        for (i in 0..timezoneStrings.size-1) selected[i] = true
+        for (i in timezoneStrings.indices) selected[i] = true
         selected
     }
     val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)

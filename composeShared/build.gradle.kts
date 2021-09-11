@@ -18,12 +18,12 @@ kotlin {
     }
 
     sourceSets {
-        all {
-            languageSettings.apply {
-                useExperimentalAnnotation("kotlin.RequiresOptIn")
-                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-            }
-        }
+//        all {
+//            languageSettings.apply {
+//                useExperimentalAnnotation("kotlin.RequiresOptIn")
+//                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+//            }
+//        }
         val commonMain by getting {
             kotlin.srcDirs("src/commonMain/kotlin")
             dependencies {
@@ -75,10 +75,17 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
 
+    buildFeatures {
+        compose = true
+    }
+
     sourceSets {
         named("main") {
             manifest.srcFile("src/androidMain/AndroidManifest.xml")
             res.srcDirs("src/androidMain/res")
         }
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = Versions.compose_version
     }
 }
