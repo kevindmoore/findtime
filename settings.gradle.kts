@@ -10,5 +10,5 @@ pluginManagement {
 rootProject.name = "Find_Time"
 include(":androidApp")
 include(":shared")
+include(":shared-ui")
 include(":desktop")
-include(":composeShared")

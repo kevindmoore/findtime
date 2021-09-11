@@ -1,16 +1,26 @@
+
 plugins {
+    id(composePlugin) version Versions.desktop_compose_plugin
     id(androidApp)
     kotlin(androidPlugin)
 }
-
+configurations {
+    "implementation" {
+        exclude(group = "androidx.compose.animation")
+        exclude(group = "androidx.compose.foundation")
+        exclude(group = "androidx.compose.material")
+        exclude(group = "androidx.compose.runtime")
+        exclude(group = "androidx.compose.ui")
+    }
+}
 dependencies {
     implementation(project(":shared"))
+    implementation(project(":shared-ui"))
     with(Deps) {
         implementation(napier)
         implementation(material)
     }
 
-//    implementation(Deps.Kotlin.stdlib)
 
     // Coroutines
     with(Deps.Coroutines) {
@@ -22,37 +32,27 @@ dependencies {
     with(Deps.Koin) {
         implementation(core)
         implementation(android)
-        implementation(compose)
     }
 
-    //Compose
     with(Deps.Compose) {
-        implementation(runtime)
-        implementation(runtime_livedata)
-        implementation(ui)
-        implementation(tooling)
-        implementation(foundation)
-        implementation(foundationLayout)
-        implementation(material)
-        implementation(material_icons)
         implementation(activity)
-        implementation(navigation)
     }
+
     with(Deps.Coil) {
         implementation(coil)
         implementation(insets)
         implementation(swipe)
     }
+
 }
 
 tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach {
     kotlinOptions {
         freeCompilerArgs += listOf(
-//            "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi",
-//            "-Xopt-in=org.koin.core.component.KoinApiExtension",
-            "-Xopt-in=kotlin.RequiresOptIn",
-//            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
-//            "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
+            "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi",
+            "-Xopt-in=org.koin.core.component.KoinApiExtension",
+            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
+            "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
         )
     }
 }

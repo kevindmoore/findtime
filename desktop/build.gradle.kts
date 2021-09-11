@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     kotlin(multiplatform)
-    id(composePlugin)
+    id(composePlugin) version Versions.desktop_compose_plugin
 }
 
 group = "com.raywenderlich.findtime"
@@ -11,14 +11,14 @@ version = "1.0.0"
 
 kotlin {
     jvm {
+        withJava()
         compilations.all {
             kotlinOptions.jvmTarget = "11"
         }
     }
     sourceSets {
-        named("jvmMain") {
+        val jvmMain by getting {
             kotlin.srcDirs("src/jvmMain/kotlin")
-            resources.srcDirs("src/jvmMain/resources")
             dependencies {
                 implementation(compose.desktop.currentOs)
                 api(compose.runtime)
@@ -35,7 +35,7 @@ kotlin {
                 // Coroutines
                 implementation(Deps.Coroutines.common)
                 implementation(project(":shared"))
-                implementation(project(":composeShared"))
+                implementation(project(":shared-ui"))
             }
         }
     }

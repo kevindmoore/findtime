@@ -1,17 +1,30 @@
-import androidx.compose.ui.graphics.painter.BitmapPainter
-import androidx.compose.ui.res.loadImageBitmap
-import androidx.compose.ui.res.useResource
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.WindowState
-import androidx.compose.ui.window.singleWindowApplication
-import com.raywenderlich.desktop.ui.MainView
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.window.Window
+import androidx.compose.ui.window.application
+import androidx.compose.ui.window.rememberWindowState
+import com.raywenderlich.compose.ui.MainView
 import com.raywenderlich.findtime.di.initializeKoin
 
-fun main() = singleWindowApplication(
-    title = "TimeZone",
-    state = WindowState(width = 1280.dp, height = 768.dp),
-    icon = BitmapPainter(useResource("ic_launcher.png", ::loadImageBitmap)) // loadImageResource("ic_launcher.png"),
-) {
-    initializeKoin()
-    MainView()
+fun main() {
+
+    application {
+        val windowState = rememberWindowState()
+
+        Window(
+            onCloseRequest = ::exitApplication,
+            state = windowState,
+            title = "TimeZone"
+        ) {
+            Surface(modifier = Modifier.fillMaxSize()) {
+                MaterialTheme {
+                    initializeKoin()
+                    MainView()
+                }
+            }
+        }
+    }
 }
+

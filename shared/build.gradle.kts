@@ -1,17 +1,34 @@
-import org.jetbrains.compose.compose
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin(multiplatform)
-    kotlin(cocopods)
     id(androidLib)
+    kotlin(cocopods)
 }
 
 version = "1.0.0"
 
+android {
+    compileSdk =  Versions.compile_sdk
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = Versions.min_sdk
+        targetSdk = Versions.target_sdk
+    }
+    buildTypes {
+        getByName("release") {
+            isMinifyEnabled = false
+        }
+    }
+}
+
 kotlin {
     android()
-    jvm("desktop")
+    jvm("desktop"){
+        compilations.all {
+            kotlinOptions.jvmTarget = "11"
+        }
+    }
 
     val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
         if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
@@ -19,7 +36,7 @@ kotlin {
         else
             ::iosX64
 
-//    iosTarget("ios") {}
+    iosTarget("ios") {}
 
     cocoapods {
         summary = "Holds Time zone information"
@@ -30,12 +47,12 @@ kotlin {
     }
     
     sourceSets {
-//        all {
-//            languageSettings.apply {
-//                useExperimentalAnnotation("kotlin.RequiresOptIn")
-//                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
-//            }
-//        }
+        all {
+            languageSettings.apply {
+                useExperimentalAnnotation("kotlin.RequiresOptIn")
+                useExperimentalAnnotation("kotlinx.coroutines.ExperimentalCoroutinesApi")
+            }
+        }
         val commonMain by getting {
             kotlin.srcDirs("src/commonMain/kotlin")
             resources.srcDirs("src/commonMain/resources")
@@ -63,32 +80,9 @@ kotlin {
         }
 
         val desktopMain by getting {
-            dependsOn(commonMain)
         }
-//        val iosMain by getting
-//        val iosTest by getting
+        val iosMain by getting
+        val iosTest by getting
     }
 }
 
-android {
-    compileSdk =  Versions.compile_sdk
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = Versions.min_sdk
-        targetSdk = Versions.target_sdk
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.compose_version
-    }
-    dependencies {
-        implementation(Deps.Compose.runtime)
-    }
-}
