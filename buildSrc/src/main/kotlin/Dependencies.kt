@@ -12,17 +12,19 @@ object Versions {
 
     const val kotlin = "1.5.21"
     const val kotlin_gradle_plugin = "1.5.21"
-    const val android_gradle_plugin = "7.1.0-alpha11"
+    const val android_gradle_plugin = "7.0.1"
+//    const val android_gradle_plugin = "7.1.0-alpha13"
     const val desktop_compose_plugin = "1.0.0-alpha3"
-    const val compose_version= "1.1.0-alpha03"
+    const val compose_version= "1.1.0-alpha05"
+//    const val kotlinTest = "1.5.30"
+    const val kotlinTest = "1.4.21"
 
     const val coroutines = "1.5.0-native-mt"
     const val koin = "3.1.1"
     const val junit = "4.13.2"
     const val material = "1.3.0"
-    const val kotlinxDateTime = "0.2.1"
+    const val kotlinxDateTime = "0.3.0"
     const val activity_compose = "1.3.1"
-    const val datetime = "0.2.1"
     const val nav_compose = "2.4.0-alpha08"
     const val napier = "1.4.1"
     const val junit5 = "1.5.10"
@@ -33,23 +35,24 @@ object Versions {
 object Deps {
     const val android_gradle_plugin = "com.android.tools.build:gradle:${Versions.android_gradle_plugin}"
     const val kotlin_gradle_plugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin_gradle_plugin}"
-    const val desktop_compose_gradle_plugin = "org.jetbrains.compose:compose-gradle-plugin:${Versions.desktop_compose_plugin}"
+//    const val desktop_compose_gradle_plugin = "org.jetbrains.compose:compose-gradle-plugin:${Versions.desktop_compose_plugin}"
+
     const val junit = "junit:junit:${Versions.junit}"
     const val material = "com.google.android.material:material:${Versions.material}"
     const val napier = "io.github.aakira:napier:${Versions.napier}"
 
-    object Kotlin {
-        const val stdlib_common = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
-        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
-        const val stdlib8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
-    }
+//    object Kotlin {
+//        const val stdlib_common = "org.jetbrains.kotlin:kotlin-stdlib-common:${Versions.kotlin}"
+//        const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlin}"
+//        const val stdlib8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlin}"
+//    }
 
     object Koin {
         val core = "io.insert-koin:koin-core:${Versions.koin}"
         val jvm = "io.insert-koin:koin-core-jvm:${Versions.koin}"
         val test = "io.insert-koin:koin-test:${Versions.koin}"
         val android = "io.insert-koin:koin-android:${Versions.koin}"
-        val compose = "io.insert-koin:koin-androidx-compose:3.0.1"
+//        val compose = "io.insert-koin:koin-androidx-compose:3.0.1"
     }
 
     object Compose {
@@ -94,7 +97,7 @@ object Deps {
     }
 
     object JetBrains {
-        const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.datetime}"
+        const val datetime = "org.jetbrains.kotlinx:kotlinx-datetime:${Versions.kotlinxDateTime}"
         const val uiDesktop = "org.jetbrains.compose.ui:ui-desktop:${Versions.desktop_compose_plugin}"
         const val uiUtil = "org.jetbrains.compose.ui:ui-util:${Versions.desktop_compose_plugin}"
     }

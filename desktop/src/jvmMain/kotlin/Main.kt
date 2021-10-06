@@ -5,6 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.rememberWindowState
+import com.raywenderlich.compose.theme.AppTheme
 import com.raywenderlich.compose.ui.MainView
 import com.raywenderlich.findtime.di.initializeKoin
 
@@ -19,7 +20,7 @@ fun main() {
             title = "TimeZone"
         ) {
             Surface(modifier = Modifier.fillMaxSize()) {
-                MaterialTheme {
+                AppTheme {
                     initializeKoin()
                     MainView()
                 }

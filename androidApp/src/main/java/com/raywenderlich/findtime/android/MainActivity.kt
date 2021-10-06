@@ -16,10 +16,11 @@ class MainActivity : ComponentActivity() {
                 TopAppBar(title = {
                     when (it) {
                         0 -> Text(text = stringResource(R.string.world_clocks))
-                        else -> Text(text = stringResource(R.string.calculator))
+                        else -> Text(text = stringResource(R.string.findmeeting))
                     }
                 })
             }
         }
     }
 }
+

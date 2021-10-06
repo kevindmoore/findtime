@@ -32,7 +32,7 @@ fun TimeZoneCalculator(
     }
     val selectedTimeZones = remember {
         val selected = SnapshotStateMap<Int, Boolean>()
-        for (i in 0..timezoneStrings.size-1) selected[i] = true
+        for (i in 0..timezoneStrings.size - 1) selected[i] = true
         selected
     }
     val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)
@@ -52,21 +52,21 @@ fun TimeZoneCalculator(
         modifier = Modifier
             .fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.size(16.dp))
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally),
-            text = "Find Meeting",
-            style = MaterialTheme.typography.h6
-        )
+//        Spacer(modifier = Modifier.size(16.dp))
+//        Text(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .wrapContentWidth(Alignment.CenterHorizontally),
+//            text = "Find Meeting",
+//            style = MaterialTheme.typography.h6
+//        )
         Spacer(modifier = Modifier.size(16.dp))
         Text(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.CenterHorizontally),
             text = "Time Range",
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.h6
         )
         Spacer(modifier = Modifier.size(16.dp))
         Row(
@@ -75,25 +75,11 @@ fun TimeZoneCalculator(
                 .padding(start = 4.dp, end = 4.dp)
                 .wrapContentWidth(Alignment.CenterHorizontally),
 
-        ) {
+            ) {
             Spacer(modifier = Modifier.size(16.dp))
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                text = "Start",
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            timeBoxPicker(startTime)
+            numberTimeCard("Start", startTime)
             Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                text = "End",
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            timeBoxPicker(endTime)
+            numberTimeCard("End", endTime)
         }
         Spacer(modifier = Modifier.size(16.dp))
         Row(
@@ -111,65 +97,69 @@ fun TimeZoneCalculator(
             )
         }
         Spacer(modifier = Modifier.size(16.dp))
-        Row(
+        LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp, end = 4.dp)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+            state = listState,
 
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5F),
-                contentPadding = PaddingValues(16.dp),
-                state = listState,
+            ) {
+            itemsIndexed(timezoneStrings) { i, timezone ->
+                Surface(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
 
-                ) {
-                itemsIndexed(timezoneStrings) { i, timezone ->
-                    Surface(
+                    ) {
+                    Row(
                         modifier = Modifier
-                            .padding(8.dp)
                             .fillMaxWidth(),
-
-                        ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                        ) {
-                            Checkbox(checked = isSelected(selectedTimeZones, i),
-                                onCheckedChange = {
-                                    selectedTimeZones[i] = it
-                                })
-                            Text(timezone, modifier = Modifier.align(Alignment.CenterVertically))
-                        }
+                    ) {
+                        Checkbox(checked = isSelected(selectedTimeZones, i),
+                            onCheckedChange = {
+                                selectedTimeZones[i] = it
+                            })
+                        Text(timezone, modifier = Modifier.align(Alignment.CenterVertically))
                     }
                 }
             }
         }
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer(Modifier.weight(0.8f))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(0.4F)
                 .wrapContentWidth(Alignment.CenterHorizontally)
                 .padding(start = 4.dp, end = 4.dp)
 
         ) {
             OutlinedButton(onClick = {
                 meetingHours.clear()
-                meetingHours.addAll(timezoneHelper.search(startTime.value, endTime.value, getSelectedTimeZones(timezoneStrings, selectedTimeZones)))
+                meetingHours.addAll(
+                    timezoneHelper.search(
+                        startTime.value,
+                        endTime.value,
+                        getSelectedTimeZones(timezoneStrings, selectedTimeZones)
+                    )
+                )
                 showAddDialog.value = true
             }) {
                 Text("Search")
             }
         }
+        Spacer(Modifier.size(16.dp))
     }
 }
 
-fun getSelectedTimeZones(timezoneStrings: List<String>, selectedStates: Map<Int, Boolean>): List<String> {
+fun getSelectedTimeZones(
+    timezoneStrings: List<String>,
+    selectedStates: Map<Int, Boolean>
+): List<String> {
     val selectedTimezones = mutableListOf<String>()
     selectedStates.keys.map {
-        if (isSelected(selectedStates, it) ) {
-            selectedTimezones.add(timezoneStrings[it])
+        val timezone = timezoneStrings[it]
+        if (isSelected(selectedStates, it) && !selectedTimezones.contains(timezone)) {
+            selectedTimezones.add(timezone)
         }
     }
     return selectedTimezones

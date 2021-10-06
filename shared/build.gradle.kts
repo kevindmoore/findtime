@@ -8,20 +8,6 @@ plugins {
 
 version = "1.0.0"
 
-android {
-    compileSdk =  Versions.compile_sdk
-    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
-    defaultConfig {
-        minSdk = Versions.min_sdk
-        targetSdk = Versions.target_sdk
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-        }
-    }
-}
-
 kotlin {
     android()
     jvm("desktop"){
@@ -66,8 +52,13 @@ kotlin {
         }
         val commonTest by getting {
             dependencies {
-                implementation(Deps.KotlinTest.common)
-                implementation(Deps.KotlinTest.annotations)
+//                implementation(kotlin("test-common"))
+//                implementation(kotlin("test-annotations-common"))
+//                (Deps.junit)
+//                implementation(Deps.KotlinTest.common)
+//                implementation(Deps.KotlinTest.annotations)
+                implementation(Deps.KotlinTest.jvm)
+//                implementation(Deps.KotlinTest.junit)
             }
         }
         val androidMain by getting
@@ -83,6 +74,15 @@ kotlin {
         }
         val iosMain by getting
         val iosTest by getting
+    }
+}
+
+android {
+    compileSdk =  Versions.compile_sdk
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = Versions.min_sdk
+        targetSdk = Versions.target_sdk
     }
 }
 

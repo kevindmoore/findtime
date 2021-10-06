@@ -18,9 +18,11 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import com.raywenderlich.compose.theme.timeTextColor
 import com.raywenderlich.findtime.TimeZoneHelper
 import kotlinx.coroutines.launch
 import org.koin.java.KoinJavaComponent
+import androidx.compose.ui.text.TextStyle
 
 @Composable
 expect fun AddTimeDialogWrapper(onDismiss: onDismissType, content: @Composable () -> Unit)
@@ -111,9 +113,11 @@ fun AddTimeZoneDialog(
                                     onValueChange = {
                                         selectedStates[i] = it
                                     })
+                                .defaultMinSize(minHeight = 34.dp)
                                 .fillMaxWidth(),
                         ) {
-                            Text(timezone)
+                            Text(timezone, modifier = Modifier.align(Alignment.CenterVertically),
+                            style = TextStyle(color = timeTextColor))
                         }
                     }
                 }

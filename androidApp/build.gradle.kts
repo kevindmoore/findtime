@@ -4,6 +4,7 @@ plugins {
     id(androidApp)
     kotlin(androidPlugin)
 }
+
 configurations {
     "implementation" {
         exclude(group = "androidx.compose.animation")
@@ -13,6 +14,7 @@ configurations {
         exclude(group = "androidx.compose.ui")
     }
 }
+
 dependencies {
     implementation(project(":shared"))
     implementation(project(":shared-ui"))
@@ -36,6 +38,7 @@ dependencies {
 
     with(Deps.Compose) {
         implementation(activity)
+//        implementation(tooling)
     }
 
     with(Deps.Coil) {

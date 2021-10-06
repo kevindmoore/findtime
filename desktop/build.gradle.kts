@@ -28,7 +28,7 @@ kotlin {
                 api(compose.materialIconsExtended)
                  // koin
                 api(Deps.Koin.core)
-                api(Deps.Kotlin.stdlib_common)
+//                api(Deps.Kotlin.stdlib_common)
                 api(Deps.JetBrains.uiDesktop)
 
                 implementation(Deps.napier)

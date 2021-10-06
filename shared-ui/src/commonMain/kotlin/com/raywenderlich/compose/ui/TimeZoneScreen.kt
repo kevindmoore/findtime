@@ -1,13 +1,10 @@
 package com.raywenderlich.compose.ui
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -26,62 +23,73 @@ import org.koin.java.KoinJavaComponent.inject
 
 @Composable
 fun TimeZoneScreen(
-  timezoneStrings: SnapshotStateList<String>
+    currentTimezoneStrings: SnapshotStateList<String>
 ) {
-  val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)
-  val listState = rememberLazyListState()
-  Column(
-    modifier = Modifier
-      .fillMaxSize()
-  ) {
-
-    var time by remember { mutableStateOf(timezoneHelper.currentTime()) }
-    LaunchedEffect(0) {
-      while (true) {
-        time = timezoneHelper.currentTime()
-        delay(1000 * 60L) // Every minute
-      }
-    }
-    Text(
-      modifier = Modifier
-        .padding(8.dp)
-        .fillMaxWidth(),
-      text = time,
-      style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center)
-    )
-    Spacer(modifier = Modifier.size(16.dp))
-
-    LazyColumn(
-      state = listState,
+    val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)
+    val listState = rememberLazyListState()
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
     ) {
-      items(timezoneStrings) { timezoneString ->
 
-
-        AnimatedSwipeDismiss(
-          item = timezoneString,
-          background = { _ ->
-            Box(
-              modifier = Modifier
-                .fillMaxSize()
-                .height(50.dp)
-                .background(Color.Red)
-                .padding(
-                  start = 20.dp,
-                  end = 20.dp
-                )
-            ) {
-              val alpha = 1f
-              Icon(
-                Icons.Filled.Delete,
-                contentDescription = "Delete",
-                modifier = Modifier
-                  .align(Alignment.CenterEnd),
-                tint = Color.White.copy(alpha = alpha)
-              )
+        var time by remember { mutableStateOf(timezoneHelper.currentTime()) }
+        LaunchedEffect(0) {
+            while (true) {
+                time = timezoneHelper.currentTime()
+                delay(1000 * 60L) // Every minute
             }
-          },
-          content = {
+        }
+        localTimeCard(
+            city = timezoneHelper.currentTimeZone(),
+            time = time, date = timezoneHelper.getDate(timezoneHelper.currentTimeZone())
+        )
+//    Text(
+//      modifier = Modifier
+//        .padding(8.dp)
+//        .fillMaxWidth(),
+//      text = time,
+//      style = MaterialTheme.typography.h2.copy(textAlign = TextAlign.Center)
+//    )
+        Spacer(modifier = Modifier.size(16.dp))
 
+        LazyColumn(
+            state = listState,
+        ) {
+            items(currentTimezoneStrings,
+                key = { timezone ->
+                    timezone
+                }) { timezoneString ->
+                AnimatedSwipeDismiss(
+                    item = timezoneString,
+                    background = { _ ->
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .height(50.dp)
+                                .background(Color.Red)
+                                .padding(
+                                    start = 20.dp,
+                                    end = 20.dp
+                                )
+                        ) {
+                            val alpha = 1f
+                            Icon(
+                                Icons.Filled.Delete,
+                                contentDescription = "Delete",
+                                modifier = Modifier
+                                    .align(Alignment.CenterEnd),
+                                tint = Color.White.copy(alpha = alpha)
+                            )
+                        }
+                    },
+                    content = {
+                        timeCard(
+                            city = timezoneString,
+                            hours = timezoneHelper.hoursFromTimeZone(timezoneString),
+                            time = timezoneHelper.currentTime(),
+                            date = timezoneHelper.getDate(timezoneString)
+                        )
+/*
             Box(
               modifier = Modifier
                 .fillMaxSize()
@@ -111,14 +119,17 @@ fun TimeZoneScreen(
                 }
               }
             }
-          },
-          onDismiss = { zone ->
-            println("Removing $zone")
-            timezoneStrings.remove(zone)
-            println("Timezone strings ${timezoneStrings.size}")
-          }
-        )
-      }
+*/
+                    },
+                    onDismiss = { zone ->
+                        if (currentTimezoneStrings.contains(zone)) {
+                            println("Removing $zone")
+                            currentTimezoneStrings.remove(zone)
+                            println("Timezone strings ${currentTimezoneStrings.size}")
+                        }
+                    }
+                )
+            }
+        }
     }
-  }
 }

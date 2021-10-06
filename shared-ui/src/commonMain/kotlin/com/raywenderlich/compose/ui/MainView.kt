@@ -13,6 +13,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
+import com.raywenderlich.compose.theme.AppTheme
 
 sealed class Screen(val title: String) {
   object TimeZonesScreen : Screen("Timezones")
@@ -40,10 +41,10 @@ val bottomNavigationItems = listOf(
 @Composable
 fun MainView(actionBarFun: topBarFun = { emptyComposable() }) {
   val showAddDialog = remember { mutableStateOf(false) }
-  val timezoneStrings = remember { SnapshotStateList<String>() }
+  val currentTimezoneStrings = remember { SnapshotStateList<String>() }
   val selectedIndex = remember { mutableStateOf(0)}
 
-  MaterialTheme {
+  AppTheme {
     Scaffold(
       topBar = {
         actionBarFun(selectedIndex.value)
@@ -88,8 +89,8 @@ fun MainView(actionBarFun: topBarFun = { emptyComposable() }) {
           onAdd = {
             showAddDialog.value = false
             for (zone in it) {
-              if (!timezoneStrings.contains(zone)) {
-                timezoneStrings.add(zone)
+              if (!currentTimezoneStrings.contains(zone)) {
+                currentTimezoneStrings.add(zone)
               }
             }
           },
@@ -100,8 +101,8 @@ fun MainView(actionBarFun: topBarFun = { emptyComposable() }) {
       }
 
       when (selectedIndex.value) {
-        0 -> TimeZoneScreen(timezoneStrings)
-        1 -> TimeZoneCalculator(timezoneStrings)
+        0 -> TimeZoneScreen(currentTimezoneStrings)
+        1 -> TimeZoneCalculator(currentTimezoneStrings)
       }
     }
   }
