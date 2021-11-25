@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="composeShared-desktop-1.0">
+    <output-path>$PROJECT_DIR$/composeShared/build/libs</output-path>
+    <root id="archive" name="composeShared-desktop-1.0.jar">
+      <element id="module-output" name="Find_Time.composeShared.desktopMain" />
+    </root>
+  </artifact>
+</component>

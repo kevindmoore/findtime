@@ -34,10 +34,11 @@ import SwiftUI
 import shared
 
 struct ContentView: View {
-  @StateObject var timezones = TimezoneItems()
+  @StateObject private var timezoneItems = TimezoneItems()
 
   init() {
     UITabBar.appearance().backgroundColor = UIColor.blue
+    UITabBar.appearance().barTintColor = .black
   }
   var body: some View {
     TabView {
@@ -46,21 +47,19 @@ struct ContentView: View {
           Image(systemName: "network")
           Text("Timezones")
         }
-      Calculator()
+      FindMeeting()
         .tabItem {
           Image(systemName: "function")
-          Text("Calculator")
+          Text("Find Meeting")
         }
     }
-    .environmentObject(timezones)
+    .accentColor(Color.white)
+    .environmentObject(timezoneItems)
   }
 }
 
 
 struct ContentView_Previews: PreviewProvider {
-  init() {
-    UITabBar.appearance().backgroundColor = UIColor.blue
-  }
   static var previews: some View {
     ContentView()
   }

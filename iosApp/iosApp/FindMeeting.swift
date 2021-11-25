@@ -33,8 +33,8 @@
 import SwiftUI
 import shared
 
-struct Calculator: View {
-  @EnvironmentObject var timezones: TimezoneItems
+struct FindMeeting: View {
+  @EnvironmentObject var timezoneItems: TimezoneItems
   @State private var selectedStartIndex = 8
   @State private var selectedEndIndex = 17
   @State private var timezoneHelper = TimeZoneHelperImpl()
@@ -64,7 +64,7 @@ struct Calculator: View {
             }
             Section(header: Text("Time Zones")) {
               List {
-                ForEach(Array(timezones.selectedTimezones), id: \.self) {  timezone in
+                ForEach(Array(timezoneItems.selectedTimezones), id: \.self) {  timezone in
                   HStack {
                     Text(timezone)
                     Spacer()
@@ -81,7 +81,7 @@ struct Calculator: View {
             let hours = timezoneHelper.search(
               startHour: Int32(startHour),
               endHour: Int32(endHour),
-              timezoneStrings: Array(timezones.selectedTimezones))
+              timezoneStrings: Array(timezoneItems.selectedTimezones))
             let hourInts = hours.map { kotinHour in
               Int(truncating: kotinHour)
             }
@@ -89,6 +89,7 @@ struct Calculator: View {
             showHoursDialog = true
           }, label: {
             Text("Search")
+              .foregroundColor(Color.black)
           })
           Spacer()
             .frame(height: 8)
@@ -108,10 +109,10 @@ struct Calculator: View {
   }
 }
 
-struct Calculator_Previews: PreviewProvider {
+struct FindMeeting_Previews: PreviewProvider {
   static var previews: some View {
     VStack {
-      Calculator()
+      FindMeeting()
         .environmentObject(TimezoneItems())
     }
   }

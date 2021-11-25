@@ -1,12 +1,23 @@
 package com.raywenderlich.findtime.android.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.*
+import androidx.compose.material.Checkbox
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -15,10 +26,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.raywenderlich.findtime.TimeZoneHelper
-import org.koin.java.KoinJavaComponent
+import org.koin.java.KoinJavaComponent.inject
 
 @Composable
-fun TimeZoneCalculator(
+fun FindMeetingScreen(
     timezoneStrings: List<String>
 ) {
     val listState = rememberLazyListState()
@@ -35,15 +46,15 @@ fun TimeZoneCalculator(
         for (i in 0..timezoneStrings.size-1) selected[i] = true
         selected
     }
-    val timezoneHelper: TimeZoneHelper = KoinJavaComponent.get(TimeZoneHelper::class.java)
-    val showAddDialog = remember { mutableStateOf(false) }
+    val timezoneHelper: TimeZoneHelper by inject(TimeZoneHelper::class.java)
+    val showMeetingDialog = remember { mutableStateOf(false) }
     val meetingHours = remember { SnapshotStateList<Int>() }
 
-    if (showAddDialog.value) {
+    if (showMeetingDialog.value) {
         MeetingDialog(
             hours = meetingHours,
             onDismiss = {
-                showAddDialog.value = false
+                showMeetingDialog.value = false
             }
         )
     }
@@ -57,42 +68,21 @@ fun TimeZoneCalculator(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentWidth(Alignment.CenterHorizontally),
-            text = "Find Meeting",
-            style = MaterialTheme.typography.h6
-        )
-        Spacer(modifier = Modifier.size(16.dp))
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentWidth(Alignment.CenterHorizontally),
             text = "Time Range",
-            style = MaterialTheme.typography.body1
+            style = MaterialTheme.typography.h6
         )
         Spacer(modifier = Modifier.size(16.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 4.dp, end = 4.dp)
+                .wrapContentWidth(Alignment.CenterHorizontally),
 
         ) {
             Spacer(modifier = Modifier.size(16.dp))
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                text = "Start",
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            timeBoxPicker(startTime)
+            numberTimeCard("Start", startTime)
             Spacer(modifier = Modifier.size(32.dp))
-            Text(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                text = "End",
-                style = MaterialTheme.typography.body1
-            )
-            Spacer(modifier = Modifier.size(16.dp))
-            timeBoxPicker(endTime)
+            numberTimeCard("End", endTime)
         }
         Spacer(modifier = Modifier.size(16.dp))
         Row(
@@ -110,74 +100,72 @@ fun TimeZoneCalculator(
             )
         }
         Spacer(modifier = Modifier.size(16.dp))
-        Row(
+        LazyColumn(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 4.dp, end = 4.dp)
+                .weight(0.6F)
+                .fillMaxWidth(),
+            contentPadding = PaddingValues(16.dp),
+            state = listState,
 
-        ) {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(0.5F),
-                contentPadding = PaddingValues(16.dp),
-                state = listState,
+            ) {
+            itemsIndexed(timezoneStrings) { i, timezone ->
+                Surface(
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxWidth(),
 
-                ) {
-                itemsIndexed(timezoneStrings) { i, timezone ->
-                    Surface(
+                    ) {
+                    Row(
                         modifier = Modifier
-                            .padding(8.dp)
                             .fillMaxWidth(),
-
-                        ) {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth(),
-                        ) {
-                            Checkbox(checked = isSelected(selectedTimeZones, i),
-                                onCheckedChange = {
-                                    selectedTimeZones[i] = it
-                                })
-                            Text(timezone)
-                        }
+                    ) {
+                        Checkbox(checked = isSelected(selectedTimeZones, i),
+                            onCheckedChange = {
+                                selectedTimeZones[i] = it
+                            })
+                        Text(timezone, modifier = Modifier.align(Alignment.CenterVertically))
                     }
                 }
             }
         }
-        Spacer(modifier = Modifier.size(16.dp))
+        Spacer(Modifier.weight(0.1f))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
+                .weight(0.2F)
                 .wrapContentWidth(Alignment.CenterHorizontally)
                 .padding(start = 4.dp, end = 4.dp)
 
         ) {
             OutlinedButton(onClick = {
                 meetingHours.clear()
-                meetingHours.addAll(timezoneHelper.search(startTime.value, endTime.value, getSelectedTimeZones(timezoneStrings, selectedTimeZones)))
-                showAddDialog.value = true
+                meetingHours.addAll(
+                    timezoneHelper.search(
+                        startTime.value,
+                        endTime.value,
+                        getSelectedTimeZones(timezoneStrings, selectedTimeZones)
+                    )
+                )
+                showMeetingDialog.value = true
             }) {
                 Text("Search")
             }
         }
+        Spacer(Modifier.size(16.dp))
     }
 }
 
-fun getSelectedTimeZones(timezoneStrings: List<String>, selectedStates: Map<Int, Boolean>): List<String> {
+fun getSelectedTimeZones(
+    timezoneStrings: List<String>,
+    selectedStates: Map<Int, Boolean>
+): List<String> {
     val selectedTimezones = mutableListOf<String>()
     selectedStates.keys.map {
-        if (isSelected(selectedStates, it) ) {
-            selectedTimezones.add(timezoneStrings[it])
+        val timezone = timezoneStrings[it]
+        if (isSelected(selectedStates, it) && !selectedTimezones.contains(timezone)) {
+            selectedTimezones.add(timezone)
         }
     }
     return selectedTimezones
 }
 
-@Composable
-fun timeBoxPicker(hours: MutableState<Int>) {
-    NumberPicker(state = hours, range = IntRange(0, 23),
-        onStateChanged = {
-            hours.value = it
-        })
-}

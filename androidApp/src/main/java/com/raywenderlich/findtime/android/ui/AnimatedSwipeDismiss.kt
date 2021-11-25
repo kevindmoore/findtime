@@ -24,7 +24,6 @@ fun <T> AnimatedSwipeDismiss(
 ) {
     val dismissState = rememberDismissState { dismissValue ->
         if (dismissValue == DismissValue.DismissedToStart) {
-            println("Calling onDismiss item $item")
             onDismiss(item)
         }
         true

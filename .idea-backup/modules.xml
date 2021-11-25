@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Find_Time.iml" filepath="$PROJECT_DIR$/.idea/modules/Find_Time.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/androidApp/Find_Time.androidApp.iml" filepath="$PROJECT_DIR$/.idea/modules/androidApp/Find_Time.androidApp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Find_Time.buildSrc.iml" filepath="$PROJECT_DIR$/.idea/modules/Find_Time.buildSrc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/desktop/Find_Time.desktop.iml" filepath="$PROJECT_DIR$/.idea/modules/desktop/Find_Time.desktop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/shared/Find_Time.shared.iml" filepath="$PROJECT_DIR$/.idea/modules/shared/Find_Time.shared.iml" />
+    </modules>
+  </component>
+</project>

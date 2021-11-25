@@ -28,7 +28,7 @@ import kotlin.math.roundToInt
 
 @Composable
 fun NumberPicker(
-    state: MutableState<Int>,
+    hour: MutableState<Int>,
     modifier: Modifier = Modifier,
     range: IntRange? = null,
     textStyle: TextStyle = LocalTextStyle.current,
@@ -39,12 +39,12 @@ fun NumberPicker(
     val halvedNumbersColumnHeight = numbersColumnHeight / 2
     val halvedNumbersColumnHeightPx = with(LocalDensity.current) { halvedNumbersColumnHeight.toPx() }
 
-    fun animatedStateValue(offset: Float): Int = state.value - (offset / halvedNumbersColumnHeightPx).toInt()
+    fun animatedStateValue(offset: Float): Int = hour.value - (offset / halvedNumbersColumnHeightPx).toInt()
 
     val animatedOffset = remember { Animatable(0f) }.apply {
         if (range != null) {
-            val offsetRange = remember(state.value, range) {
-                val value = state.value
+            val offsetRange = remember(hour.value, range) {
+                val value = hour.value
                 val first = -(range.last - value) * halvedNumbersColumnHeightPx
                 val last = -(range.first - value) * halvedNumbersColumnHeightPx
                 first..last
@@ -79,8 +79,8 @@ fun NumberPicker(
                             }
                         ).endState.value
 
-                        state.value = animatedStateValue(endValue)
-                        onStateChanged(state.value)
+                        hour.value = animatedStateValue(endValue)
+                        onStateChanged(hour.value)
                         animatedOffset.snapTo(0f)
                     }
                 }
@@ -88,10 +88,8 @@ fun NumberPicker(
     ) {
         val spacing = 4.dp
 
-//        val arrowColor = MaterialTheme.colors.onSecondary.copy(alpha = ContentAlpha.disabled)
-
         IconButton(onClick = {
-            state.value++
+            hour.value++
         }) {
             Icon(Icons.Filled.ArrowUpward, contentDescription = "Up")
         }
@@ -127,7 +125,7 @@ fun NumberPicker(
 
         Spacer(modifier = Modifier.height(spacing))
         IconButton(onClick = {
-            state.value--
+            hour.value--
         }) {
             Icon(Icons.Filled.ArrowDownward, contentDescription = "Down")
         }

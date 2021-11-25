@@ -31,8 +31,6 @@ fun isSelected(selectedStates: Map<Int, Boolean>, index: Int): Boolean {
     return (selectedStates.containsKey(index) && (true == selectedStates[index]))
 }
 
-const val SEARCH_DELAY_MILLIS = 30L
-
 @Composable
 fun AddTimeZoneDialog(
     timezoneHelper: TimeZoneHelper = get(TimeZoneHelper::class.java),
@@ -129,12 +127,7 @@ fun AddTimeZoneDialog(
 
             Button(
                 onClick = {
-                    onAdd(
-                        getTimezones(
-                            selectedStates = selectedStates,
-                            timeZoneStrings = timeZoneStrings
-                        )
-                    )
+                    onDismiss()
                 }
             ) {
                 Text(text = stringResource(id = R.string.cancel))

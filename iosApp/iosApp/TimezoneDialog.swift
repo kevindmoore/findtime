@@ -31,6 +31,7 @@
 /// THE SOFTWARE.
 
 import SwiftUI
+import shared
 
 extension String: Identifiable {
   public var id: String { return self }
@@ -38,29 +39,29 @@ extension String: Identifiable {
 
 struct TimezoneDialog: View {
   @State private var searchText: String = ""
-  @EnvironmentObject var timezones: TimezoneItems
+  @EnvironmentObject var timezoneItems: TimezoneItems
   @Binding var showTimezoneDialog: Bool
 
   var body: some View {
     VStack {
       Searchbar(text: $searchText)
-      List(selection: $timezones.selectedTimezones) {
+      List(selection: $timezoneItems.selectedTimezones) {
         ForEach(
-          timezones.timezones.filter {
-            searchText.isEmpty ? true : $0.contains(searchText)
+          timezoneItems.timezones.filter {
+            searchText.isEmpty ? true : $0.lowercased().contains(searchText.lowercased())
           },
           id: \.self) { timezone in
-          HStack {
-            Image(systemName: timezones.selectedTimezones.contains(timezone) ? "checkmark.circle" : "circle")
-              .onTapGesture {
-                selectTimezone(timezone: timezone)
-              }
-            Text(timezone)
-              .onTapGesture {
-                selectTimezone(timezone: timezone)
-              }
+            HStack {
+              Image(systemName: timezoneItems.selectedTimezones.contains(timezone) ? "checkmark.circle" : "circle")
+                .onTapGesture {
+                  selectTimezone(timezone: timezone)
+                }
+              Text(timezone)
+                .onTapGesture {
+                  selectTimezone(timezone: timezone)
+                }
+            }
           }
-        }
       }
     }
     Button("Dismiss") {
@@ -68,10 +69,10 @@ struct TimezoneDialog: View {
     }
   }
   func selectTimezone(timezone: String) {
-    if timezones.selectedTimezones.contains(timezone) {
-      timezones.selectedTimezones.remove(timezone)
+    if timezoneItems.selectedTimezones.contains(timezone) {
+      timezoneItems.selectedTimezones.remove(timezone)
     } else {
-      timezones.selectedTimezones.insert(timezone)
+      timezoneItems.selectedTimezones.insert(timezone)
     }
   }
 }

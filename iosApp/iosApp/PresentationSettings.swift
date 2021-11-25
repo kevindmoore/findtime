@@ -36,6 +36,6 @@ import SwiftUI
 class TimezoneVariables: ObservableObject {
   @Published var showTimezoneDialog = false
 }
-class CalculatorVariables: ObservableObject {
+class FindMeetingVariables: ObservableObject {
   @Published var showHoursDialog = false
 }
