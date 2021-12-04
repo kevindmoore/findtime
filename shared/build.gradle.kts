@@ -2,8 +2,8 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin(multiplatform)
-    kotlin(cocopods)
     id(androidLib)
+    kotlin(cocopods)
 }
 
 version = "1.0.0"
@@ -12,38 +12,23 @@ kotlin {
     android()
     jvm("desktop")
 
-//    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
-//        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
-//            ::iosArm64
-//        else
-//            ::iosX64
-//
-//    iosTarget("ios") {}
-//    ios()
-    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget = when {
-        System.getenv("SDK_NAME")?.startsWith("iphoneos") == true -> ::iosArm64
-        System.getenv("NATIVE_ARCH")?.startsWith("arm") == true -> ::iosSimulatorArm64
-        else -> ::iosX64
-    }
+    val iosTarget: (String, KotlinNativeTarget.() -> Unit) -> KotlinNativeTarget =
+        if (System.getenv("SDK_NAME")?.startsWith("iphoneos") == true)
+            ::iosArm64
+        else
+            ::iosX64
 
-    iosTarget("ios") {
-        binaries {
-            framework {
-                baseName = "shared"
-            }
-        }
-    }
+    iosTarget("ios") {}
+    // Add the ARM64 simulator target
+    iosSimulatorArm64()
 
-//    cocoapods {
-//        summary = "Holds Time zone information"
-//        homepage = "Link to the Shared Module homepage"
-//        ios.deploymentTarget = "14.1"
-////        framework {
-////            baseName = "shared"
-////        }
-//        frameworkName = "shared"
-//        podfile = project.file("../iosApp/Podfile")
-//    }
+    cocoapods {
+        summary = "Holds Time zone information"
+        homepage = "Link to the Shared Module homepage"
+        ios.deploymentTarget = "14.1"
+        frameworkName = "shared"
+        podfile = project.file("../iosApp/Podfile")
+    }
     
     sourceSets {
         all {
@@ -81,8 +66,14 @@ kotlin {
         val desktopMain by getting {
             dependsOn(commonMain)
         }
-        val iosMain by getting
+        val iosMain by getting {
+            dependsOn(commonMain)
+        }
         val iosTest by getting
+        val iosSimulatorArm64Main by getting
+        val iosSimulatorArm64Test by getting
+        iosSimulatorArm64Main.dependsOn(iosMain)
+        iosSimulatorArm64Test.dependsOn(iosTest)
     }
 }
 
